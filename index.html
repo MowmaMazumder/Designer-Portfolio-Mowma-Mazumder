@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mowma Mazumder | Creative Portfolio</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Sleek Blue Theme */
+            --blue-soft: #a0c4ff;
+            --blue-accent: #4ea8de;
+            --cyan-glow: #90e0ef;
+            --text-dark: #0b192c;
+            --text-light: #1e3a5f;
+
+            /* Reduced Glass Opacity for better video visibility */
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --transition: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Base & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        h1,
+        h2,
+        h3,
+        .serif {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-dark);
+        }
+
+        /* --- VIDEO BACKGROUND --- */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: -3;
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
+        /* A subtle blue tint overlay so the text stays readable */
+        .video-tint {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(160, 196, 255, 0.3), rgba(78, 168, 222, 0.3));
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Ambient Noise Overlay to blend the UI */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9998;
+            opacity: 0.3;
+            mix-blend-mode: overlay;
+        }
+
+        /* Custom Cursor (Blue) */
+        .cursor-outer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background: rgba(78, 168, 222, 0.3);
+            border: 1.5px solid rgba(78, 168, 222, 0.8);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: transform 0.1s linear, width 0.3s, height 0.3s;
+        }
+
+        .cursor-inner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--text-dark);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10001;
+            transition: width 0.3s, height 0.3s;
+        }
+
+        .cursor-outer.hovering {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.5);
+            border-color: white;
+        }
+
+        .cursor-inner.hovering {
+            width: 12px;
+            height: 12px;
+            background: var(--blue-accent);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 0;
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* SHINING GRADIENT NAME EFFECT */
+        .hero h1 {
+            font-size: clamp(3.5rem, 9vw, 7.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 15px;
+
+            background: linear-gradient(to right,
+                    #0b192c 20%,
+                    #4ea8de 40%,
+                    #90e0ef 50%,
+                    #4ea8de 60%,
+                    #0b192c 80%);
+            background-size: 200% auto;
+            color: transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* Subtly drop shadow on the wrapper to keep it readable */
+            filter: drop-shadow(0 4px 6px rgba(255, 255, 255, 0.4));
+
+            animation: shine 4s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        .hero .subtitle {
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            font-weight: 600;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-dark);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-right: 3px solid var(--text-dark);
+            border-bottom: 3px solid var(--text-dark);
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0) rotate(45deg);
+            }
+
+            40% {
+                transform: translateY(-15px) rotate(45deg);
+            }
+
+            60% {
+                transform: translateY(-7px) rotate(45deg);
+            }
+        }
+
+        /* About Section (Reduced Glass Blur) */
+        .about-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            /* Reduced Blur */
+            border: 1.5px solid var(--glass-border);
+            border-radius: 35px;
+            padding: 60px;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+        }
+
+        .about-card h2 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+        }
+
+        .about-card p {
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-weight: 500;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Glass Bento Layout - The Architect */
+        .bento-section-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .bento-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            /* Reduced Blur */
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s var(--transition), border-color 0.4s;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            border-color: white;
+        }
+
+        .card-large {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 900px) {
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-large {
+                grid-column: span 1;
+            }
+        }
+
+        /* Specific bento elements */
+        .stat-number {
+            font-size: 5.5rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 5px 20px rgba(78, 168, 222, 0.8);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .bento-header {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--text-dark);
+        }
+
+        .bento-sub {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        /* Skills Cloud */
+        .skills-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-pill {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s;
+            color: var(--text-dark);
+        }
+
+        .skill-pill:hover {
+            background: white;
+            box-shadow: 0 5px 15px rgba(78, 168, 222, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid rgba(255, 255, 255, 0.6);
+            margin-top: 20px;
+        }
+
+        .timeline-item {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        .timeline-date {
+            font-size: 0.8rem;
+            color: var(--text-dark);
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .timeline-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .timeline-item p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        /* Aptitudes */
+        .aptitude-item {
+            margin-bottom: 20px;
+        }
+
+        .aptitude-item strong {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+        }
+
+        .aptitude-item p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* Art Works Gallery */
+        .gallery-header {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s var(--transition);
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .filter-btn.active {
+            background: var(--blue-accent);
+            color: white;
+            border: 1px solid var(--blue-accent);
+            box-shadow: 0 5px 15px rgba(78, 168, 222, 0.4);
+            transform: scale(1.05);
+        }
+
+        .masonry {
+            column-count: 3;
+            column-gap: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .masonry {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .masonry {
+                column-count: 1;
+            }
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 20px;
+            transition: all 0.5s var(--transition);
+        }
+
+        .gallery-item.hide {
+            display: none;
+        }
+
+        .gallery-item.hide-anim {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .tilt-wrapper {
+            perspective: 1000px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tilt-inner {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: transform 0.1s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .tilt-inner img {
+            width: 100%;
+            display: block;
+            border-radius: 16px;
+            transition: transform 0.6s var(--transition);
+        }
+
+        .tilt-inner:hover img {
+            transform: scale(1.05);
+        }
+
+        .glare {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.4), transparent 60%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            mix-blend-mode: overlay;
+            z-index: 2;
+        }
+
+        .tilt-inner:hover .glare {
+            opacity: 1;
+        }
+
+        .category-tag {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            transform: translateY(20px) translateZ(30px);
+            opacity: 0;
+            transition: all 0.4s var(--transition);
+            z-index: 3;
+        }
+
+        .tilt-inner:hover .category-tag {
+            opacity: 1;
+            transform: translateY(0) translateZ(30px);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 25, 44, 0.85);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s var(--transition);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 12px;
+            transform: scale(0.9);
+            transition: transform 0.5s var(--transition);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .lightbox.active img {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.3s;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.2) rotate(90deg);
+            color: var(--blue-accent);
+        }
+
+        /* --- NEW ADDITIONS: CV Button & Contact --- */
+        .cv-btn {
+            display: inline-block;
+            margin-top: 35px;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--blue-accent), var(--blue-soft));
+            color: #fff;
+            text-decoration: none;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(78, 168, 222, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            transition: all 0.4s var(--transition);
+        }
+
+        .cv-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(78, 168, 222, 0.7);
+            background: linear-gradient(135deg, var(--blue-soft), var(--cyan-glow));
+            color: var(--text-dark);
+        }
+
+        .contact-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            display: block;
+            padding: 12px;
+            border-radius: 12px;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .contact-link:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateX(5px);
+        }
+
+        .contact-link strong {
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dark);
+        }
+
+        .contact-link p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 4px;
+            font-weight: 500;
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body>
+
+    <video id="bg-video" autoplay loop muted playsinline>
+        <source src="aquarium-artworks-moewalls-com.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="video-tint"></div>
+    <svg class="noise">
+        <filter id="noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3" stitchTiles="stitch" />
+        </filter>
+        <rect width="100%" height="100%" filter="url(#noise)" />
+    </svg>
+
+    <div class="cursor-outer" id="cursor-outer"></div>
+    <div class="cursor-inner" id="cursor-inner"></div>
+
+    <section class="hero reveal">
+        <div class="container">
+            <h1>Mowma Mazumder</h1>
+            <div class="subtitle">Creative Artist • UI/UX Designer • Digital Storyteller</div>
+            <a href="MowmaMazumder.SWE.Resume.pdf1.pdf" class="cv-btn interactive" download>Download CV</a>
+        </div>
+        <div class="scroll-indicator" id="scroll-indicator">
+            <span>Scroll</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <section class="container reveal">
+        <div class="about-card">
+            <h2 class="serif">About the Artist</h2>
+            <p>Translating daydreams into digital reality. At my core, I am a hardcore artist with an exceptional design
+                mindset, driven by a relentless passion for creativity. Whether I am crafting intuitive UI experiences,
+                developing compelling visual illustrations, or bringing concepts to life through motion design, I thrive
+                on thinking outside the box. For me, true innovation comes from continuous learning, seamless
+                collaboration, and letting the art speak for itself.</p>
+            <p> <strong>- Torongo</strong> <em>(Me, a tiny little artist)</em> </p>
+        </div>
+    </section>
+
+    <section class="container reveal" id="resume">
+        <h2 class="serif bento-section-title">The Architect</h2>
+        <div class="bento-grid">
+
+            <div class="bento-card">
+                <div class="stat-number" id="project-counter">0</div>
+                <div class="stat-label">Projects Completed</div>
+                <p style="margin-top: 15px; opacity: 0.8; font-size: 0.9rem; font-weight: 500;">Bridging the gap between
+                    robust engineering and beautiful design.</p>
+            </div>
+
+            <div class="bento-card card-large">
+                <h3 class="bento-header serif">Technical Toolkit</h3>
+                <p class="bento-sub">Full Stack Development & UI/UX Design</p>
+                <div class="skills-cloud">
+                    <span class="skill-pill interactive">JavaScript / React</span>
+                    <span class="skill-pill interactive">HTML / CSS / jQuery</span>
+                    <span class="skill-pill interactive">System Analysis</span>
+                    <span class="skill-pill interactive">UI/UX Prototyping</span>
+                    <span class="skill-pill interactive">Wireframing</span>
+                    <span class="skill-pill interactive">Adobe Illustrator</span>
+                    <span class="skill-pill interactive">Adobe Photoshop</span>
+                    <span class="skill-pill interactive">Krita</span>
+                    <span class="skill-pill interactive">MediBang Paletta</span>
+                    <span class="skill-pill interactive">Agile Development</span>
+                    <span class="skill-pill interactive">SEO Principles</span>
+                </div>
+            </div>
+
+            <div class="bento-card card-large">
+                <h3 class="bento-header serif">Academic Journey</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2019 - 2024</div>
+                        <h4>B.Sc. in Software Engineering</h4>
+                        <p>Daffodil International University</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2017 - 2019</div>
+                        <h4>Higher Secondary Certificate</h4>
+                        <p>Central Women’s College</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2015 - 2017</div>
+                        <h4>Secondary School Certificate</h4>
+                        <p>Motijheel Model High School and College</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3 class="bento-header serif">Aptitudes</h3>
+                <div style="margin-top: 20px;">
+                    <div class="aptitude-item">
+                        <strong>🧠 Critical Thinking</strong>
+                        <p>Fast, rational logic under pressure.</p>
+                    </div>
+                    <div class="aptitude-item">
+                        <strong>🌱 Eager to Learn</strong>
+                        <p>Fueled by curiosity and new skills.</p>
+                    </div>
+                    <div class="aptitude-item">
+                        <strong>💬 Communication</strong>
+                        <p>Open-minded and team-oriented.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bento-card card-large">
+                <h3 class="bento-header serif">Professional Experience</h3>
+                <div class="timeline">
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">July 2025 – Feb 2026</div>
+                        <h4>Foreign Communicator | Sales & Franchise</h4>
+                        <p style="font-weight: 700; color: var(--text-dark);">SoftVence</p>
+                        <p
+                            style="margin-top: 6px; font-size: 0.85rem; line-height: 1.5; color: var(--text-light); font-weight: 500;">
+                            Managed international B2B outreach across US, Europe, and UAE markets. Facilitated franchise
+                            acquisitions, built strategic partnerships, and acted as the primary liaison providing
+                            full-cycle support for global clients.
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-date">Dec 2024 – May 2025</div>
+                        <h4>Learning Consultant | Jr. BDE</h4>
+                        <p style="font-weight: 700; color: var(--text-dark);">NetCom Learning Global Ltd</p>
+                        <p
+                            style="margin-top: 6px; font-size: 0.85rem; line-height: 1.5; color: var(--text-light); font-weight: 500;">
+                            Conducted global B2B/B2C communication to drive sales and business growth. Spearheaded
+                            targeted outreach campaigns, offered tailored IT training solutions, and maintained detailed
+                            lead tracking to optimize conversions.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="bento-card">
+                <h3 class="bento-header serif">Let's Connect</h3>
+                <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 5px;">
+                    <a href="mailto:mowmamazumder24@gmail.com" class="contact-link interactive">
+                        <strong>📧 Email</strong>
+                        <p>mowmamazumder@gmail.com</p>
+                    </a>
+                    <a href="tel:+8801972719170" class="contact-link interactive">
+                        <strong>📞 Phone</strong>
+                        <p>+880 1972-719170</p>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mowma-mazumder-58466a339/" target="_blank"
+                        class="contact-link interactive">
+                        <strong>💼 LinkedIn</strong>
+                        <p>mowma-mazumder</p>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="container reveal">
+        <h2 class="serif gallery-header">Art Works</h2>
+
+        <div class="filters">
+            <button class="filter-btn active interactive" data-filter="all">All Works</button>
+            <button class="filter-btn interactive" data-filter="sketch">Sketch</button>
+            <button class="filter-btn interactive" data-filter="color">Color</button>
+            <button class="filter-btn interactive" data-filter="digital">Digital</button>
+        </div>
+
+        <div class="masonry">
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image19.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image20.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image21.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image1.png" alt="sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image2.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image3.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image4.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image5.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image6.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image23.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image7.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="sketch">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image22.png" alt="Sketch">
+                        <div class="glare"></div>
+                        <div class="category-tag">Sketch</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image9.png" alt="Color">
+                        <div class="glare"></div>
+                        <div class="category-tag">Color</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image10.png" alt="Color">
+                        <div class="glare"></div>
+                        <div class="category-tag">Color</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image12.png" alt="Color">
+                        <div class="glare"></div>
+                        <div class="category-tag">Color</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image13.png" alt="Color">
+                        <div class="glare"></div>
+                        <div class="category-tag">Color</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image17.png" alt="Color">
+                        <div class="glare"></div>
+                        <div class="category-tag">Color</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gallery-item" data-category="color">
+                <div class="tilt-wrapper">
+                    <div class="tilt-inner interactive">
+                        <img src="images/image18.png" alt="Color">
+                        <div class="glare"></div>
+                        <div class="category-tag">Color</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="gallery-item" data-category="digital">
+                    <div class="tilt-wrapper">
+                        <div class="tilt-inner interactive">
+                            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=800&q=80"
+                                alt="Digital Art">
+                            <div class="glare"></div>
+                            <div class="category-tag">Digital</div>
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-close interactive" id="lightbox-close">✕</div>
+        <img src="" alt="Enlarged Project" id="lightbox-img">
+    </div>
+
+    <script>
+        // Custom Cursor Logic
+        const cursorOuter = document.getElementById('cursor-outer');
+        const cursorInner = document.getElementById('cursor-inner');
+        const interactives = document.querySelectorAll('.interactive');
+
+        let mouseX = 0, mouseY = 0;
+        let innerX = 0, innerY = 0;
+        const speed = 0.2;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorInner.style.left = mouseX + 'px';
+            cursorInner.style.top = mouseY + 'px';
+        });
+
+        function animateCursor() {
+            let dx = mouseX - innerX;
+            let dy = mouseY - innerY;
+            innerX += dx * speed;
+            innerY += dy * speed;
+            cursorOuter.style.left = innerX + 'px';
+            cursorOuter.style.top = innerY + 'px';
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursorOuter.classList.add('hovering');
+                cursorInner.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursorOuter.classList.remove('hovering');
+                cursorInner.classList.remove('hovering');
+            });
+        });
+
+        // Scroll Arrow Fade Effect
+        window.addEventListener('scroll', () => {
+            const indicator = document.getElementById('scroll-indicator');
+            if (indicator) {
+                let opacity = Math.max(1 - window.scrollY / 250, 0);
+                indicator.style.opacity = opacity;
+                if (opacity === 0) {
+                    indicator.style.pointerEvents = 'none';
+                } else {
+                    indicator.style.pointerEvents = 'auto';
+                }
+            }
+        });
+
+        // Scroll Reveal & Number Counter
+        let counterStarted = false;
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+
+                    // Trigger Counter logic when Bento Section hits
+                    if (entry.target.id === 'resume' && !counterStarted) {
+                        counterStarted = true;
+                        let count = 0;
+                        let target = 56;
+                        let counterEl = document.getElementById('project-counter');
+                        let interval = setInterval(() => {
+                            count += 2;
+                            if (count >= target) {
+                                counterEl.innerText = target;
+                                clearInterval(interval);
+                            } else {
+                                counterEl.innerText = count;
+                            }
+                        }, 40);
+                    }
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        setTimeout(() => document.querySelector('.hero').classList.add('active'), 100);
+
+        // 3D Tilt with Glass Sheen
+        const tiltElements = document.querySelectorAll('.tilt-inner');
+        tiltElements.forEach(el => {
+            const glare = el.querySelector('.glare');
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                const centerX = rect.width / 2; const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -12;
+                const rotateY = ((x - centerX) / centerX) * 12;
+
+                el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+
+                if (glare) {
+                    const glareX = (x / rect.width) * 100;
+                    const glareY = (y / rect.height) * 100;
+                    glare.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255, 255, 255, 0.4), transparent 60%)`;
+                }
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+                if (glare) glare.style.background = `radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.2), transparent 60%)`;
+            });
+        });
+
+        // Filtering System
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelector('.filter-btn.active').classList.remove('active');
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hide');
+                        setTimeout(() => item.classList.remove('hide-anim'), 50);
+                    } else {
+                        item.classList.add('hide-anim');
+                        setTimeout(() => { if (item.classList.contains('hide-anim')) item.classList.add('hide'); }, 400);
+                    }
+                });
+            });
+        });
+
+        // Lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeBtn = document.getElementById('lightbox-close');
+
+        document.querySelectorAll('.gallery-item img').forEach(img => {
+            img.addEventListener('click', () => { lightboxImg.src = img.src; lightbox.classList.add('active'); });
+        });
+
+        const closeLightbox = () => lightbox.classList.remove('active');
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => { if (e.target !== lightboxImg) closeLightbox(); });
+        document.addEventListener('keydown', (e) => { if (e.key === "Escape" && lightbox.classList.contains('active')) closeLightbox(); });
+    </script>
+</body>
+
+</html>
